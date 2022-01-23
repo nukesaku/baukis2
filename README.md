@@ -46,8 +46,9 @@ Baukis2 は企業向けの顧客管理システム（Ruby on Rails 学習用サ�
 
 ## 起動
 ```shell
-docker-compose up -d
-docker-compose exec web bash
+docker-compose up -d # docker 起動
+docker-compose exec web bash # dockerログイン
 cd baukis2/
 rails s -b 0.0.0.0
+docker-compose stop # docker 停止
 ```
