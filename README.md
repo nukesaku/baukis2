@@ -43,3 +43,11 @@ Baukis2 は企業向けの顧客管理システム（Ruby on Rails 学習用サ�
     * http://baukis2.example.com:3000 -- 職員向けサイト
     * http://baukis2.example.com:3000/admin -- 管理者向けサイト
     * http://example.com:3000/mypage -- 顧客向けサイト
+
+## 起動
+```shell
+docker-compose up -d
+docker-compose exec web bash
+cd baukis2/
+rails s -b 0.0.0.0
+```
