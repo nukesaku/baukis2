@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :staff do
-    root "top#fuga"
+    root "top#index"
   end
 
   namespace :admin do
