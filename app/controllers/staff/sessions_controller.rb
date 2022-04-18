@@ -3,7 +3,7 @@ class Staff::SessionsController < Staff::Base
     if current_staff_member
       redirect_to :staff_root
     else
-      @form = Staff::LoginFrom.new
+      @form = Staff::LoginForm.new
       render action: 'new'
     end
   end
