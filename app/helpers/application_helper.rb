@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include HtmlBuilder
+  
   SITE_NAME = 'Baukis2'.freeze
   def document_title
     if @title.present?
