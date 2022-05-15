@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_05_020219) do
+ActiveRecord::Schema.define(version: 2022_05_12_022708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.bigint "customer_id", null: false, comment: "顧客への外部キー"
+    t.string "type", null: false, comment: "継承カラム"
+    t.string "postal_code", null: false, comment: "郵便番号"
+    t.string "prefecture", null: false, comment: "都道府県"
+    t.string "city", null: false, comment: "市区町村"
+    t.string "address1", null: false, comment: "町域、番地等"
+    t.string "address2", null: false, comment: "建物名、部屋番号等"
+    t.string "company_name", default: "", null: false, comment: "会社名"
+    t.string "division_name", default: "", null: false, comment: "部署名"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_addresses_on_customer_id"
+    t.index ["type", "customer_id"], name: "index_addresses_on_type_and_customer_id", unique: true
+  end
 
   create_table "administrators", force: :cascade do |t|
     t.string "email", null: false, comment: "メールアドレス"
@@ -22,6 +38,21 @@ ActiveRecord::Schema.define(version: 2022_05_05_020219) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index "lower((email)::text)", name: "index_administrators_on_LOWER_email", unique: true
+  end
+
+  create_table "customers", force: :cascade do |t|
+    t.string "email", null: false, comment: "メールアドレス"
+    t.string "family_name", null: false, comment: "姓"
+    t.string "given_name", null: false, comment: "名"
+    t.string "family_name_kana", null: false, comment: "姓（セイ）"
+    t.string "given_name_kana", null: false, comment: "名（メイ）"
+    t.string "gender", comment: "性別"
+    t.date "birthday", comment: "誕生日"
+    t.string "hashed_password", comment: "パスワード"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "lower((email)::text)", name: "index_customers_on_LOWER_email", unique: true
+    t.index ["family_name_kana", "given_name_kana"], name: "index_customers_on_family_name_kana_and_given_name_kana"
   end
 
   create_table "staff_events", force: :cascade do |t|
@@ -48,5 +79,6 @@ ActiveRecord::Schema.define(version: 2022_05_05_020219) do
     t.index ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana"
   end
 
+  add_foreign_key "addresses", "customers"
   add_foreign_key "staff_events", "staff_members"
 end
