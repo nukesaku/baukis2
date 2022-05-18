@@ -1,4 +1,8 @@
 class Customer < ApplicationRecord
+  include EmailHolder
+  include PersonalNameHolder
+  include PasswordHolder
+  
   has_one :home_address, dependent: :destroy, autosave: true
   has_one :work_address, dependent: :destroy, autosave: true
 
@@ -8,12 +12,4 @@ class Customer < ApplicationRecord
     before: ->(obj) { Date.today },
     allow_blank: true
   }
-  
-  def password=(raw_passowrd)
-    if raw_passowrd.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_passowrd)
-    elsif raw_passowrd.nil?
-      self.hashed_password = nil
-    end
-  end
 end
