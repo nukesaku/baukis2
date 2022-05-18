@@ -1,12 +1,15 @@
 class Customer < ApplicationRecord
-  has_one :home_address, dependent: :destroy
-  has_one :work_address, dependent: :destroy
+  include EmailHolder
+  include PersonalNameHolder
+  include PasswordHolder
+  
+  has_one :home_address, dependent: :destroy, autosave: true
+  has_one :work_address, dependent: :destroy, autosave: true
 
-  def password=(raw_passowrd)
-    if raw_passowrd.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_passowrd)
-    elsif raw_passowrd.nil?
-      self.hashed_password = nil
-    end
-  end
+  validates :gender, inclusion: { in: %w(male female), allow_blank: true }
+  validates :birthday, date: {
+    after: Date.new(1900, 1, 1),
+    before: ->(obj) { Date.today },
+    allow_blank: true
+  }
 end
