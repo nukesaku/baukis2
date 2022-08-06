@@ -24,8 +24,9 @@ gem "nokogiri"
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   
-  # デバッグ用にgem追加tuika
+  # デバッグ用にgem追加
   gem 'pry-rails'
+  gem 'pry-nav'
 end
 
 group :development do
