@@ -18,7 +18,7 @@ class Customer < ApplicationRecord
 
   before_save do
     if birthday
-      self.find_by_birth_year = birthday.year
+      self.birth_year = birthday.year
       self.birth_month = birthday.month
       self.birth_mday = birthday.mday
     end
