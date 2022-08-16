@@ -29,7 +29,6 @@ describe "次回から⾃動でログインする" do
 
     expect(session).not_to have_key(:customer_id)
     expect(response.cookies["customer_id"]).to match(/[0-9a-f]{40}\z/)
-    binding.pry
     cookies = response.request.env["action_dispatch.cookies"]
                       .instance_variable_get(:@set_cookies)
 
