@@ -1,5 +1,5 @@
 class Program < ApplicationRecord
-  has_many :entries, dependent: :destroy
+  has_many :entries, dependent: :restrict_with_exception
   has_many :applicants, through: :entries, source: :customer
   belongs_to :registrant, class_name: 'StaffMember'
 
@@ -30,6 +30,10 @@ class Program < ApplicationRecord
       self.application_end_hour = application_end_time.hour
       self.application_end_minute = application_end_time.min
     end
+  end
+
+  def deletable?
+    entries.empty?
   end
 
   before_validation :set_application_start_time
