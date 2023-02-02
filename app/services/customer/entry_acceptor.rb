@@ -4,16 +4,19 @@ class Customer::EntryAcceptor
   end
 
   def accept(program)
-    if max = program.max_number_of_participants
-      if program.entries.where(canceled: false).count < max
-        program.entries.create!(customer: current_customer)
-        return :accepted
+    ActiveRecord::Base.transaction do
+      program.lock!
+      if max = program.max_number_of_participants
+        if program.entries.where(canceled: false).count < max
+          program.entries.create!(customer: @customer)
+          return :accepted
+        else
+          return :full
+        end
       else
-        return :full
+        program.entries.create!(customer: @customer)
+        return :accepted
       end
-    else
-      program.entries.create!(customer: current_customer)
-      return :accepted
     end
   end
 end
