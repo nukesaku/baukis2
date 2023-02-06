@@ -1,0 +1,12 @@
+<% @title = "アカウントの更新（確認）" %>
+<h1><%= @title %></h1>
+
+<div id="generic-form">
+  <%= form_with model: @staff_member, url: :staff_account do |f| %>
+    <%= render "form", f: f, confirming: true %>
+    <div class="buttons">
+      <%= f.submit "更新" %>
+      <%= f.submit "訂正", name: "correct" %>
+    </div>
+  <% end %>
+</div>
