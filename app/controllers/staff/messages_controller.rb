@@ -1,23 +1,30 @@
 class Staff::MessagesController < Staff::Base
   def index
     @messages = Message.not_deleted.sorted.page(params[:page])
+    if params[:tag_id]
+      @messages = @messages.joins(:message_tag_links).where('message_tag_links.tag_id' => params[:tag_id])
+                    .tagged_as(params[:tag_id])
+    end
   end
 
   # GET
   def inbound
     @messages = CustomerMessage.not_deleted.sorted.page(params[:page])
+                  .tagged_as(params[:tag_id])
     render action: "index"
   end
 
   # GET
   def outbound
     @messages = StaffMessage.not_deleted.sorted.page(params[:page])
+                  .tagged_as(params[:tag_id])
     render action: "index"
   end
 
   # GET
   def deleted
     @messages = Message.deleted.sorted.page(params[:page])
+                  .tagged_as(params[:tag_id])
     render action: "index"
   end
 
