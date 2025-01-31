@@ -40,6 +40,4 @@ class Admin::SessionsController < Admin::Base
   private def login_form_params
     params.require(:admin_login_form).permit(:email, :password)
   end
-  
-  
 end
